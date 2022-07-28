@@ -28,11 +28,13 @@ Almighty Path Parser | 全能路径解析器
 
 # 如何使用：
 
-[代码]("https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs")
+[代码](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
 
  # Library
-
- todo
+ https://www.nuget.org/packages/PathEngine/
+```
+Install-Package PathEngine -Version 
+```
   
  # CLI
 
