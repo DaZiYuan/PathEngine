@@ -1,10 +1,10 @@
-﻿using PathEngine.Middles;
+﻿using PathEngine.Pipelines.GetterMiddles;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace PathEngine
+namespace PathEngine.Pipelines
 {
     public class Payload
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Linq;
 
-namespace PathEngine.Middles
+namespace PathEngine.Pipelines.GetterMiddles
 {
     /// <summary>
     /// 转换通配符 %xxx%

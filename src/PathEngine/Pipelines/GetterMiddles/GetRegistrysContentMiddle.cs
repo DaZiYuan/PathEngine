@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace PathEngine.Middles
+namespace PathEngine.Pipelines.GetterMiddles
 {
     /// <summary>
     /// 获取注册表内容

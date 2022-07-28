@@ -1,4 +1,4 @@
-﻿using PathEngine.Middles;
+﻿using PathEngine.Pipelines.GetterMiddles;
 using System;
 
 namespace PathEngine.Pipelines

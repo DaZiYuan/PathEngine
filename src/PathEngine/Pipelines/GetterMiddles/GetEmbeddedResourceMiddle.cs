@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace PathEngine.Middles
+namespace PathEngine.Pipelines.GetterMiddles
 {
     /// <summary>
     /// 获取嵌入资源内容

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace PathEngine.Middles
+namespace PathEngine.Pipelines.GetterMiddles
 {
     /// <summary>
     /// 获取版本号

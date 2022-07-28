@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace PathEngine.Middles
+namespace PathEngine.Pipelines.GetterMiddles
 {
     /// <summary>
     /// 获取文件内容

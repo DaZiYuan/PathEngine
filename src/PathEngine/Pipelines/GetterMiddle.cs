@@ -1,4 +1,4 @@
-﻿namespace PathEngine
+﻿namespace PathEngine.Pipelines
 {
     public interface GetterMiddle
     {
