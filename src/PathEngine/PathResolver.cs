@@ -8,6 +8,7 @@ namespace PathEngine
 {
     public class PathResolver
     {
+        private GetterPipeline _getterPipeline = new GetterPipeline();
         static PathResolver()
         {
             EntryAssembly = Assembly.GetEntryAssembly();
@@ -16,7 +17,7 @@ namespace PathEngine
         /// 一般不用改，只是为了方便单元测试
         /// </summary>
         public static Assembly EntryAssembly { get; set; }
-        
+
         /// <summary>
         /// 默认访问实例
         /// </summary>
@@ -47,7 +48,7 @@ namespace PathEngine
 
         public string[] GetAll(string path)
         {
-            var res = new PathEnginePipeline().Handle(path);
+            var res = _getterPipeline.Handle(path);
             return res;
         }
 

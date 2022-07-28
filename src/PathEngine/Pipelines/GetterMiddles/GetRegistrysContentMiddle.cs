@@ -8,12 +8,12 @@ namespace PathEngine.Middles
     /// <summary>
     /// 获取注册表内容
     /// </summary>
-    internal class RegistrysMiddle : IPathEngineMiddle
+    internal class GetRegistrysContentMiddle : GetterMiddle
     {
-        PathEnginePayload IPathEngineMiddle.Input(PathEnginePayload payload)
+        public const string Command = "registry";
+        Payload GetterMiddle.Input(Payload payload)
         {
-            string protocol = "registry";
-            if (payload.Command.Schemas.Contains(protocol))
+            if (payload.Command.Schemas.Contains(Command))
             {
                 List<string> res = new List<string>();
                 foreach (var item in payload.Data)

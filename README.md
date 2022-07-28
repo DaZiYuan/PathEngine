@@ -3,15 +3,15 @@ Almighty Path Parser | 全能路径解析器
 
 --- 
 # 使用路径字符串轻松读写Windows资源
- - [ ] 真实路径解析
-   - [ ] 环境变量解析
+ - [x] 真实路径解析
+   - [x] 环境变量解析
       - 例：`path:\%appdata%\path`
    - [ ] 自定义路径解析
       - 例：`path:\%xx%\path`
-   - [ ] 模糊匹配文件
+   - [x] 模糊匹配文件
       - 例：`path:\%xx%\path\*\*\*.txt`
    - [ ] 模糊匹配文件夹
-      - 例：`path:\%xx%\path\**\**`
+      - 例：`path:\%xx%\path\*\*\`，注意斜线结尾
     
  - [ ] 内容获取
    - [ ] 获取获取注册表内容
@@ -25,5 +25,10 @@ Almighty Path Parser | 全能路径解析器
  - [ ] 写入内容
    - [ ] todo
  # Library
+
+ todo
   
  # CLI
+
+ todo
+

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using PathEngine.Middles;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace PathEngine
 {
-    public class PathEnginePayload
+    public class Payload
     {
         public class InnerCommand
         {
@@ -18,13 +19,28 @@ namespace PathEngine
                     Schemas = new ReadOnlyCollection<string>(matches.Groups[1].Value.Split('_'));
                     URN = matches.Groups[2].Value;
                 }
+                else
+                {
+                    //根据内容生成命令
+                    URN = source;
+                    List<string> commands = new List<string>();
+                    if (URN.StartsWith("HKEY_"))
+                    {
+                        commands.Add(GetRegistrysContentMiddle.Command);
+                    }
+                    else
+                    {
+                        commands.Add(GetPathMiddle.Command);
+                    }
+                    Schemas = new ReadOnlyCollection<string>(commands);
+                }
             }
 
             public ReadOnlyCollection<string> Schemas { get; set; }
             public string URN { get; set; }
         }
 
-        public PathEnginePayload(string command, string content = null)
+        public Payload(string command, string content = null)
         {
             Command = new InnerCommand(command);
             Data = new string[] { content ?? Command.URN };

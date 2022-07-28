@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <None Remove="Configs\config.txt" />
+    <None Remove="Configs\config2.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Configs\config2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Configs\config.txt" />
   </ItemGroup>
 

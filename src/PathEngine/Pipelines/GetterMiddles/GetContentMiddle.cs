@@ -7,12 +7,11 @@ namespace PathEngine.Middles
     /// <summary>
     /// 获取文件内容
     /// </summary>
-    internal class FileContentMiddle : IPathEngineMiddle
+    internal class GetContentMiddle : GetterMiddle
     {
-        PathEnginePayload IPathEngineMiddle.Input(PathEnginePayload payload)
+        Payload GetterMiddle.Input(Payload payload)
         {
-            string protocol = "file";
-            if (payload.Command.Schemas.Contains(protocol))
+            if (payload.Command.Schemas.Contains("content"))
             {
                 List<string> res = new List<string>();
                 foreach (var item in payload.Data)

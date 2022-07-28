@@ -3,19 +3,19 @@ using System;
 
 namespace PathEngine.Pipelines
 {
-    internal class PathEnginePipeline
+    internal class GetterPipeline
     {
-        readonly IPathEngineMiddle[] _middles;
-        internal PathEnginePipeline()
+        readonly GetterMiddle[] _middles;
+        internal GetterPipeline()
         {
-            _middles = new IPathEngineMiddle[] { new PathMiddle(), new FileContentMiddle(), new EmbeddedResMiddle(), new RegistrysMiddle(), new VersionMiddle() };
+            _middles = new GetterMiddle[] { new GetPathMiddle(), new GetContentMiddle(), new GetEmbeddedResourceMiddle(), new GetRegistrysContentMiddle(), new GetVersionMiddle() };
         }
 
         internal string[] Handle(string input)
         {
             try
             {
-                var payload = new PathEnginePayload(input);
+                var payload = new Payload(input);
                 foreach (var item in _middles)
                 {
                     payload = item.Input(payload);

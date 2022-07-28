@@ -9,8 +9,9 @@ namespace PathEngine.Middles
     /// <summary>
     /// 转换通配符 %xxx%
     /// </summary>
-    internal class PathMiddle : IPathEngineMiddle
+    internal class GetPathMiddle : GetterMiddle
     {
+        public const string Command = "path";
         static readonly Dictionary<string, Func<string>> _dict = new Dictionary<string, Func<string>>()
         {
             {"%app_folder%", GetAppFolder }
@@ -22,9 +23,9 @@ namespace PathEngine.Middles
             return res;
         }
 
-        public PathEnginePayload Input(PathEnginePayload payload)
+        public Payload Input(Payload payload)
         {
-            if (payload.Command.Schemas.Contains("path"))
+            if (payload.Command.Schemas.Contains(Command))
             {
                 List<string> res = new List<string>();
                 foreach (var dataItem in payload.Data)
@@ -40,22 +41,6 @@ namespace PathEngine.Middles
                     }
 
                     res = InnerGetAllPath(path);
-                    //var fileName = Path.GetFileName(path);
-                    ////文件名包含通配符
-                    //if (fileName.Contains("*"))
-                    //{
-                    //    var dir = Path.GetDirectoryName(path);
-                    //    if (Directory.Exists(dir))
-                    //    {
-                    //        var dirInfo = new DirectoryInfo(dir);
-                    //        var files = dirInfo.GetFiles(fileName).OrderByDescending(m => m.LastWriteTime);
-                    //        res = files.Select(m => m.FullName).ToList();
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    res.Add(path);
-                    //}
                 }
                 payload.SetData(res.ToArray());
             }
@@ -68,7 +53,7 @@ namespace PathEngine.Middles
             List<string> result = new List<string>();
             foreach (var path in paths)
             {
-                if (!path.Contains("*"))
+                if (!path.Contains('*'))
                 {
                     //不包含通配符
                     result.Add(path);
@@ -82,7 +67,7 @@ namespace PathEngine.Middles
                     bool isLastOne = i == pathSlices.Length - 1;
                     var pathItem = pathSlices[i];
 
-                    if (pathItem.Contains("*") && Directory.Exists(currentPath))
+                    if (pathItem.Contains('*') && Directory.Exists(currentPath))
                     {
                         try
                         {

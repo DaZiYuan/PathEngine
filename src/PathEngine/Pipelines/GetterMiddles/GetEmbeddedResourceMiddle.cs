@@ -7,9 +7,9 @@ namespace PathEngine.Middles
     /// <summary>
     /// 获取嵌入资源内容
     /// </summary>
-    internal class EmbeddedResMiddle : IPathEngineMiddle
+    internal class GetEmbeddedResourceMiddle : GetterMiddle
     {
-        PathEnginePayload IPathEngineMiddle.Input(PathEnginePayload payload)
+        Payload GetterMiddle.Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains("embedded"))
             {
