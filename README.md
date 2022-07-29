@@ -30,13 +30,13 @@ Almighty Path Parser | 全能路径解析器
 
 [代码](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
 
- # Library
- https://www.nuget.org/packages/PathEngine/
+ # Library:
 ```
 Install-Package PathEngine -Version 
 ```
-  
- # CLI
+https://www.nuget.org/packages/PathEngine/
+
+ # CLI:
 
  todo
 
