@@ -22,7 +22,8 @@ Almighty Path Parser | 全能路径解析器
         - 例：`content:\path`
    - [ ] 获取Dll嵌入资源内容
         - 例：`embedded:\path`
- 
+ - [ ] 写入内容
+   - [ ] todo
  # Library
   
  # CLI
