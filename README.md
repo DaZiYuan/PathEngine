@@ -23,5 +23,6 @@ Almighty Path Parser | 全能路径解析器
    - [ ] 获取Dll嵌入资源内容
         - 例：`embedded:\path`
  
- # dotnet4.6+
+ # Library
   
+ # CLI
