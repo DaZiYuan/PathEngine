@@ -24,7 +24,7 @@ namespace PathEngine.Pipelines
             }
             catch (Exception)
             {
-                return null;
+                return Array.Empty<string>();
             }
         }
     }

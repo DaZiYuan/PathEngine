@@ -15,44 +15,41 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<string> res = new List<string>();
+                List<string?> res = new();
                 foreach (var item in payload.Data)
                 {
-                    using (var reader = new StringReader(item))
+                    var tmp = item.Split(':');
+                    if (tmp.Length > 1)
                     {
-                        var tmp = item.Split(':');
-                        if (tmp.Length > 1)
+                        var registryKey = GetRegistryKey(tmp[0]);
+                        var registryData = tmp[1];
+                        if (registryData.Contains('*'))
                         {
-                            var registryKey = GetRegistryKey(tmp[0]);
-                            var registryData = tmp[1];
-                            if (registryData.Contains("*"))
-                            {
-                                var names = registryKey.GetValueNames();
-                                registryData = names.FirstOrDefault(m => m.Contains(registryData.Replace("*", "")));
-                            }
-
-                            var tmpRes = registryKey?.GetValue(registryData);
-                            string strRes = null;
-                            if (tmpRes is byte[])
-                                strRes = System.Text.Encoding.UTF8.GetString(tmpRes as byte[]);
-                            else if (tmpRes is string)
-                                strRes = tmpRes.ToString();
-                            res.Add(strRes);
+                            var names = registryKey?.GetValueNames();
+                            registryData = names?.FirstOrDefault(m => m.Contains(registryData.Replace("*", "")));
                         }
-                        else
-                            res.Add(null);
+
+                        var tmpRes = registryKey?.GetValue(registryData);
+                        string? strRes = null;
+                        if (tmpRes is byte[] tmpBytes)
+                            strRes = System.Text.Encoding.UTF8.GetString(tmpBytes);
+                        else if (tmpRes is string)
+                            strRes = tmpRes?.ToString();
+                        res.Add(strRes);
                     }
+                    else
+                        res.Add(null);
                 }
-                payload.SetData(res?.ToArray());
+                payload.SetData(res?.ToArray()!);
             }
             return payload;
         }
 
-        internal static RegistryKey GetRootRegistry(string path, out string keyPath)
+        internal static RegistryKey? GetRootRegistry(string path, out string keyPath)
         {
             var rootEndIndex = path.IndexOf("\\") + 1;
-            var root = path.Substring(0, rootEndIndex);
-            keyPath = path.Substring(rootEndIndex);
+            var root = path[..rootEndIndex];
+            keyPath = path[rootEndIndex..];
             switch (root)
             {
                 case "HKEY_CLASSES_ROOT\\":
@@ -69,13 +66,11 @@ namespace PathEngine.Pipelines.GetterMiddles
             return null;
         }
 
-        internal static RegistryKey GetRegistryKey(string path, bool canWrite = false)
+        internal static RegistryKey? GetRegistryKey(string path, bool canWrite = false)
         {
-            using (var rootKey = GetRootRegistry(path, out string keyPath))
-            {
-                RegistryKey key = rootKey.OpenSubKey(keyPath, canWrite);
-                return key;
-            }
+            using RegistryKey? rootKey = GetRootRegistry(path, out string keyPath);
+            RegistryKey? key = rootKey?.OpenSubKey(keyPath, canWrite);
+            return key;
         }
     }
 }

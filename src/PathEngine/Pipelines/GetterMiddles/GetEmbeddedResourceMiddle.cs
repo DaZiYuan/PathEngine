@@ -13,16 +13,14 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains("embedded"))
             {
-                List<string> res = new List<string>();
+                List<string> res = new();
                 foreach (var item in payload.Data)
                 {
                     var assembly = PathResolver.EntryAssembly;
                     var tmpPath = $"{assembly.GetName().Name}.{item.Replace(@"\", ".")}";
-                    using (var reader = new StreamReader(PathResolver.EntryAssembly.GetManifestResourceStream(tmpPath)))
-                    {
-                        string tmp = reader.ReadToEnd();
-                        res.Add(tmp);
-                    }
+                    using StreamReader? reader = new(PathResolver.EntryAssembly.GetManifestResourceStream(tmpPath)!);
+                    string tmp = reader.ReadToEnd();
+                    res.Add(tmp);
                 }
                 payload.SetData(res.ToArray());
             }

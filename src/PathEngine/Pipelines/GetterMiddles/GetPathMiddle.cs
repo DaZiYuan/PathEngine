@@ -12,7 +12,7 @@ namespace PathEngine.Pipelines.GetterMiddles
     internal class GetPathMiddle : GetterMiddle
     {
         public const string Command = "path";
-        static readonly Dictionary<string, Func<string>> _dict = new Dictionary<string, Func<string>>()
+        static readonly Dictionary<string, Func<string>> _dict = new()
         {
             {"%app_folder%", GetAppFolder }
         };
@@ -20,14 +20,14 @@ namespace PathEngine.Pipelines.GetterMiddles
         private static string GetAppFolder()
         {
             var res = Path.GetDirectoryName(PathResolver.EntryAssembly.Location);
-            return res;
+            return res!;
         }
 
         public Payload Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<string> res = new List<string>();
+                List<string> res = new();
                 foreach (var dataItem in payload.Data)
                 {
                     string path = Environment.ExpandEnvironmentVariables(dataItem);
@@ -50,7 +50,7 @@ namespace PathEngine.Pipelines.GetterMiddles
 
         private List<string> InnerGetAllPath(params string[] paths)
         {
-            List<string> result = new List<string>();
+            List<string> result = new();
             foreach (var path in paths)
             {
                 if (!path.Contains('*'))
@@ -61,7 +61,7 @@ namespace PathEngine.Pipelines.GetterMiddles
                 }
 
                 var pathSlices = path.Split('\\');
-                string currentPath = null;
+                string? currentPath = null;
                 for (int i = 0; i < pathSlices.Length; i++)
                 {
                     bool isLastOne = i == pathSlices.Length - 1;
@@ -71,7 +71,7 @@ namespace PathEngine.Pipelines.GetterMiddles
                     {
                         try
                         {
-                            DirectoryInfo dInfo = new DirectoryInfo(currentPath);
+                            DirectoryInfo dInfo = new(currentPath);
                             if (!isLastOne)
                             {
                                 var allPath = dInfo.GetDirectories(pathItem).Select(m =>

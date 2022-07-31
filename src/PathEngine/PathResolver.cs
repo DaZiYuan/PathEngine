@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PathEngine.Pipelines;
-using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -8,10 +7,10 @@ namespace PathEngine
 {
     public class PathResolver
     {
-        private GetterPipeline _getterPipeline = new GetterPipeline();
+        private readonly GetterPipeline _getterPipeline = new();
         static PathResolver()
         {
-            EntryAssembly = Assembly.GetEntryAssembly();
+            EntryAssembly = Assembly.GetEntryAssembly()!;
         }
         /// <summary>
         /// 一般不用改，只是为了方便单元测试
@@ -43,7 +42,7 @@ namespace PathEngine
         public string Get(string path)
         {
             var res = GetAll(path);
-            return res != null && res.Length > 0 ? res[0] : null;
+            return res.Length > 0 ? res[0] : string.Empty;
         }
 
         public string[] GetAll(string path)
@@ -52,7 +51,7 @@ namespace PathEngine
             return res;
         }
 
-        public static async Task<T> LoadJsonConfig<T>(string path)
+        public static async Task<T?> LoadJsonConfig<T>(string path)
         {
             string json = await Instance.GetAsync(path);
             if (json == null)

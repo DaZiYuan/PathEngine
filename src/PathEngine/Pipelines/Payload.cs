@@ -23,7 +23,7 @@ namespace PathEngine.Pipelines
                 {
                     //根据内容生成命令
                     URN = source;
-                    List<string> commands = new List<string>();
+                    List<string> commands = new();
                     if (URN.StartsWith("HKEY_"))
                     {
                         commands.Add(GetRegistrysContentMiddle.Command);
@@ -40,7 +40,7 @@ namespace PathEngine.Pipelines
             public string URN { get; set; }
         }
 
-        public Payload(string command, string content = null)
+        public Payload(string command, string? content = null)
         {
             Command = new InnerCommand(command);
             Data = new string[] { content ?? Command.URN };
@@ -49,7 +49,7 @@ namespace PathEngine.Pipelines
         public void SetData(string[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
             Data = data;
-            callerFilePath = callerFilePath.Substring(callerFilePath.LastIndexOf(@"\"));
+            callerFilePath = callerFilePath[callerFilePath.LastIndexOf(@"\")..];
             string caller = $"{callerFilePath} {callerMemberName}";
             Logger.Add($"{caller} ${data}");
         }
