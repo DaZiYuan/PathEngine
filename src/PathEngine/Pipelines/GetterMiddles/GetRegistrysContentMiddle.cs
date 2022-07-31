@@ -33,7 +33,9 @@ namespace PathEngine.Pipelines.GetterMiddles
                         string? strRes = null;
                         if (tmpRes is byte[] tmpBytes)
                             strRes = System.Text.Encoding.UTF8.GetString(tmpBytes);
-                        else if (tmpRes is string)
+                        //else if (tmpRes is string)
+                        //    strRes = tmpRes?.ToString();
+                        else if(tmpRes!=null)
                             strRes = tmpRes?.ToString();
                         res.Add(strRes);
                     }
