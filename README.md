@@ -13,8 +13,8 @@ Almighty Path Parser | 全能路径解析器
 ```csharp
 PathResolver.Instance.Get("%ProgramFiles(x86)%");
 //C:\Program Files (x86)
-PathResolver.Instance.Get("\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}");
-//\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}
+PathResolver.Instance.Get(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}");
+//HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}
 PathResolver.Instance.Get("TestProject.Configs.config.txt");
 //TestProject.Configs.config.txt
 
@@ -23,7 +23,7 @@ PathResolver.Instance.Get("TestProject.Configs.config.txt");
 - 文件搜索
 
 ```csharp
-PathResolver.Instance.GetAll(@"path:\%ProgramData%\*\*\*.txt");
+PathResolver.Instance.List(@"path:\%ProgramData%\*\*\*.txt");
 //C:\ProgramData\chocolatey\bin\_processed.txt
 //...
 //C:\ProgramData\NVIDIA Corporation\NvStreamSrv\settings.txt
@@ -32,7 +32,7 @@ PathResolver.Instance.GetAll(@"path:\%ProgramData%\*\*\*.txt");
 - 文件夹搜索
 
 ```csharp
-PathResolver.Instance.GetAll(@"path:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
+PathResolver.Instance.List(@"path:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.Compilers,version=4.2.0.2228105,productarch=neutral
 //...
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.VisualStudio.Setup.Resources,version=15.9.28218.60,language=zh-CN

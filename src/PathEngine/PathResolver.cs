@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PathEngine.Pipelines;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace PathEngine
         /// 一般不用改，只是为了方便单元测试
         /// </summary>
         public static Assembly EntryAssembly { get; set; }
+
+        public Dictionary<string, string> Variables { get; private set; } = new();
 
         public object Set(string path, object value)
         {
@@ -42,28 +45,28 @@ namespace PathEngine
         {
             return Task.Run(() =>
             {
-                return GetAll(configPath);
+                return List(configPath);
             });
         }
 
         public string? Get(string path)
         {
-            var res = GetAll(path);
+            var res = List(path);
             return res.Length > 0 ? res[0] : null;
         }
         public T? Get<T>(string path)
         {
-            var res = GetAll<T>(path);
+            var res = List<T>(path);
             return res.Length > 0 ? res[0] : default;
         }
 
-        public string?[] GetAll(string path)
+        public string?[] List(string path)
         {
-            var res = GetAll<string>(path);
+            var res = List<string>(path);
             return res;
         }
 
-        public T?[] GetAll<T>(string path)
+        public T?[] List<T>(string path)
         {
             var res = _getterPipeline.Handle(path);
             return res.Select(x => x.GetValue<T>()).ToArray();
