@@ -15,10 +15,10 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<string?> res = new();
+                List<PayloadData?> res = new();
                 foreach (var item in payload.Data)
                 {
-                    var tmp = item.Split(':');
+                    var tmp = item.GetValue().Split(':');
                     if (tmp.Length > 1)
                     {
                         var registryKey = GetRegistryKey(tmp[0]);
@@ -30,14 +30,14 @@ namespace PathEngine.Pipelines.GetterMiddles
                         }
 
                         var tmpRes = registryKey?.GetValue(registryData);
-                        string? strRes = null;
+                        PayloadData? tmpResulItem = null;
                         if (tmpRes is byte[] tmpBytes)
-                            strRes = System.Text.Encoding.UTF8.GetString(tmpBytes);
-                        //else if (tmpRes is string)
-                        //    strRes = tmpRes?.ToString();
-                        else if(tmpRes!=null)
-                            strRes = tmpRes?.ToString();
-                        res.Add(strRes);
+                            tmpResulItem = new PayloadData(System.Text.Encoding.UTF8.GetString(tmpBytes));
+                        else if (tmpRes is int tmpInt)
+                            tmpResulItem = new PayloadData(tmpInt);
+                        else if (tmpRes != null)
+                            tmpResulItem = new PayloadData(tmpRes?.ToString());
+                        res.Add(tmpResulItem);
                     }
                     else
                         res.Add(null);

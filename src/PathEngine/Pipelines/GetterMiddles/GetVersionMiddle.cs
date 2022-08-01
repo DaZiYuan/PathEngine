@@ -12,20 +12,20 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains("version"))
             {
-                List<string> res = new();
+                List<PayloadData> res = new();
                 foreach (var dataItem in payload.Data)
                 {
                     string tmpRes;
                     try
                     {
-                        FileVersionInfo version = FileVersionInfo.GetVersionInfo(dataItem);
+                        FileVersionInfo version = FileVersionInfo.GetVersionInfo(dataItem.GetValue());
                         tmpRes = version.FileVersion!;
                     }
                     catch (System.Exception)
                     {
                         tmpRes = string.Empty;
                     }
-                    res.Add(tmpRes);
+                    res.Add(new(tmpRes));
                 }
                 payload.SetData(res.ToArray());
             }

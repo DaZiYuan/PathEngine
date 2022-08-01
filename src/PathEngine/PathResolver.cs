@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using PathEngine.Pipelines;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -23,7 +26,7 @@ namespace PathEngine
         public static PathResolver Instance { get; private set; } = new PathResolver();
 
         #region public methods
-        public Task<string> GetAsync(string configPath)
+        public Task<string?> GetAsync(string configPath)
         {
             return Task.Run(() =>
             {
@@ -31,7 +34,7 @@ namespace PathEngine
             });
         }
 
-        public Task<string[]> GetAllAsync(string configPath)
+        public Task<string?[]> GetAllAsync(string configPath)
         {
             return Task.Run(() =>
             {
@@ -39,26 +42,38 @@ namespace PathEngine
             });
         }
 
-        public string Get(string path)
+        public string? Get(string path)
         {
             var res = GetAll(path);
-            return res.Length > 0 ? res[0] : string.Empty;
+            return res.Length > 0 ? res[0] : null;
+        }
+        public T? Get<T>(string path)
+        {
+            var res = GetAll<T>(path);
+            return res.Length > 0 ? res[0] : default;
         }
 
-        public string[] GetAll(string path)
+        public string?[] GetAll(string path)
+        {
+            var res = GetAll<string>(path);
+            return res;
+        }
+
+        public T?[] GetAll<T>(string path)
         {
             var res = _getterPipeline.Handle(path);
-            return res;
+            return res.Select(x => x.GetValue<T>()).ToArray();
         }
 
         public static async Task<T?> LoadJsonConfig<T>(string path)
         {
-            string json = await Instance.GetAsync(path);
+            string? json = await Instance.GetAsync(path);
             if (json == null)
                 return default;
             var res = JsonConvert.DeserializeObject<T>(json);
             return res;
         }
+
         #endregion
     }
 }

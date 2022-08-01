@@ -1,11 +1,47 @@
 ﻿using PathEngine.Pipelines.GetterMiddles;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace PathEngine.Pipelines
 {
+    public class PayloadData
+    {
+        public PayloadData()
+        {
+            
+        }
+        public PayloadData(object? content)
+        {
+            Content = content;
+        }
+
+        public object? Content { get; set; }
+
+        internal string GetValue()
+        {
+            var res = GetValue<string>();
+            return res ?? string.Empty;
+        }
+        internal T? GetValue<T>()
+        {
+            var type = typeof(T);
+            switch (type)
+            {
+                case Type t when t == typeof(string):
+                    return (T?)Convert.ChangeType(Content?.ToString(), type);
+                case Type t when t == typeof(int):
+                    return (T?)Convert.ChangeType((int?)Content, type);
+                default:
+                    break;
+            }
+
+            return default;
+        }
+    }
     public class Payload
     {
         public class InnerCommand
@@ -43,10 +79,10 @@ namespace PathEngine.Pipelines
         public Payload(string command, string? content = null)
         {
             Command = new InnerCommand(command);
-            Data = new string[] { content ?? Command.URN };
+            Data = new PayloadData[] { new PayloadData(content ?? Command.URN) };
         }
 
-        public void SetData(string[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
+        public void SetData(PayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
             Data = data;
             callerFilePath = callerFilePath[callerFilePath.LastIndexOf(@"\")..];
@@ -54,7 +90,7 @@ namespace PathEngine.Pipelines
             Logger.Add($"{caller} ${data}");
         }
         public List<string> Logger { get; } = new List<string>();
-        public string[] Data { get; private set; }
+        public PayloadData[] Data { get; private set; }
         public InnerCommand Command { get; private set; }
     }
 }

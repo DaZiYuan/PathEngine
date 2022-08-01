@@ -13,18 +13,18 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains("content"))
             {
-                List<string> res = new();
+                List<PayloadData> res = new();
                 foreach (var item in payload.Data)
                 {
                     try
                     {
-                        using var reader = new StreamReader(item);
+                        using var reader = new StreamReader(item.GetValue());
                         var content = reader.ReadToEnd();
-                        res.Add(content);
+                        res.Add(new PayloadData(content));
                     }
                     catch (Exception)
                     {
-                        res.Add(string.Empty);
+                        res.Add(new PayloadData());
                     }
                 }
                 payload.SetData(res.ToArray());

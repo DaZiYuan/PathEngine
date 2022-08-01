@@ -27,10 +27,10 @@ namespace PathEngine.Pipelines.GetterMiddles
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<string> res = new();
+                List<PayloadData> res = new();
                 foreach (var dataItem in payload.Data)
                 {
-                    string path = Environment.ExpandEnvironmentVariables(dataItem);
+                    string path = Environment.ExpandEnvironmentVariables(dataItem.GetValue());
                     //替换自定义特殊key
                     foreach (var item in _dict)
                     {
@@ -48,15 +48,15 @@ namespace PathEngine.Pipelines.GetterMiddles
             return payload;
         }
 
-        private List<string> InnerGetAllPath(params string[] paths)
+        private List<PayloadData> InnerGetAllPath(params string[] paths)
         {
-            List<string> result = new();
+            List<PayloadData> result = new();
             foreach (var path in paths)
             {
                 if (!path.Contains('*'))
                 {
                     //不包含通配符
-                    result.Add(path);
+                    result.Add(new PayloadData(path));
                     continue;
                 }
 
@@ -88,7 +88,7 @@ namespace PathEngine.Pipelines.GetterMiddles
                             {
                                 //文件名通配符
                                 var allPath = dInfo.GetFiles(pathItem).OrderByDescending(m => m.LastWriteTime).Select(m => m.FullName).ToArray();
-                                result.AddRange(allPath);
+                                result.AddRange(allPath.Select(x => new PayloadData(x)).ToList());
                             }
                         }
                         catch (Exception ex)

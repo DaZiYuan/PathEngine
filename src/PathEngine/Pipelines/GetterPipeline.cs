@@ -11,7 +11,7 @@ namespace PathEngine.Pipelines
             _middles = new IGetterMiddle[] { new GetPathMiddle(), new GetContentMiddle(), new GetEmbeddedResourceMiddle(), new GetRegistrysContentMiddle(), new GetVersionMiddle() };
         }
 
-        internal string[] Handle(string input)
+        internal PayloadData[] Handle(string input)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace PathEngine.Pipelines
             }
             catch (Exception)
             {
-                return Array.Empty<string>();
+                return Array.Empty<PayloadData>();
             }
         }
     }

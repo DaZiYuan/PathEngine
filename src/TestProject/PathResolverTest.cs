@@ -65,5 +65,15 @@ namespace TestProject
             res = PathResolver.Instance.Get(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}:pv");
             Assert.IsTrue(res == tmpValue);
         }
+
+        [TestMethod]
+        public void GetGenericTypeValue()
+        {
+            int res = PathResolver.Instance.Get<int>(@"registry:\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate:OOBEDiagnosticsSent");
+            Assert.IsTrue(res > 0);
+
+            string? res1 = PathResolver.Instance.Get<string>(@"registry:\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate:OOBEDiagnosticsSent");
+            Assert.IsTrue(res1 != null);
+        }
     }
 }
