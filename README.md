@@ -4,13 +4,20 @@ Almighty Path Parser | 全能路径解析器
 
 ---
 
-# 用法：
+# 功能：
+
+## 读取
 
 - 解析路径
 
 ```csharp
- PathResolver.Instance.Get("%ProgramFiles(x86)%");
- //C:\Program Files (x86)
+PathResolver.Instance.Get("%ProgramFiles(x86)%");
+//C:\Program Files (x86)
+PathResolver.Instance.Get("\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}");
+//\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}
+PathResolver.Instance.Get("TestProject.Configs.config.txt");
+//TestProject.Configs.config.txt
+
 ```
 
 - 文件搜索
@@ -49,6 +56,8 @@ PathResolver.Instance.Get(@"path_content:\Configs\config2.txt");
 var res = PathResolver.Instance.Get(@$"version:\C:\Windows\System32\cmd.exe");
 //10.0.19041.1826 (WinBuild.160101.0800)
 ```
+
+## 写入
 
 [代码](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
 

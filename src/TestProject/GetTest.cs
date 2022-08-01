@@ -47,7 +47,6 @@ namespace TestProject
             string exe = @"C:\Windows\System32\cmd.exe";
             var res = PathResolver.Instance.Get(@$"version:\{exe}");
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(exe)!;
-
             Assert.IsTrue(res == version.FileVersion!.ToString());
         }
 
