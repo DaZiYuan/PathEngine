@@ -8,10 +8,10 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// <summary>
     /// 获取注册表内容
     /// </summary>
-    internal class GetRegistrysContentMiddle : GetterMiddle
+    internal class GetRegistrysContentMiddle : IGetterMiddle
     {
         public const string Command = "registry";
-        Payload GetterMiddle.Input(Payload payload)
+        Payload IGetterMiddle.Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains(Command))
             {

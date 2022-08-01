@@ -6,9 +6,9 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// <summary>
     /// 获取版本号
     /// </summary>
-    internal class GetVersionMiddle : GetterMiddle
+    internal class GetVersionMiddle : IGetterMiddle
     {
-        Payload GetterMiddle.Input(Payload payload)
+        Payload IGetterMiddle.Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains("version"))
             {

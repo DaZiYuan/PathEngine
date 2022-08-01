@@ -1,6 +1,6 @@
 ﻿namespace PathEngine.Pipelines
 {
-    public interface GetterMiddle
+    public interface IGetterMiddle
     {
         Payload Input(Payload input);
     }

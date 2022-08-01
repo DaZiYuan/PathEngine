@@ -9,7 +9,7 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// <summary>
     /// 转换通配符 %xxx%
     /// </summary>
-    internal class GetPathMiddle : GetterMiddle
+    internal class GetPathMiddle : IGetterMiddle
     {
         public const string Command = "path";
         static readonly Dictionary<string, Func<string>> _dict = new()

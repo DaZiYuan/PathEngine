@@ -7,9 +7,9 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// <summary>
     /// 获取文件内容
     /// </summary>
-    internal class GetContentMiddle : GetterMiddle
+    internal class GetContentMiddle : IGetterMiddle
     {
-        Payload GetterMiddle.Input(Payload payload)
+        Payload IGetterMiddle.Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains("content"))
             {

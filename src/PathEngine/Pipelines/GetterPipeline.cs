@@ -5,10 +5,10 @@ namespace PathEngine.Pipelines
 {
     internal class GetterPipeline
     {
-        readonly GetterMiddle[] _middles;
+        readonly IGetterMiddle[] _middles;
         internal GetterPipeline()
         {
-            _middles = new GetterMiddle[] { new GetPathMiddle(), new GetContentMiddle(), new GetEmbeddedResourceMiddle(), new GetRegistrysContentMiddle(), new GetVersionMiddle() };
+            _middles = new IGetterMiddle[] { new GetPathMiddle(), new GetContentMiddle(), new GetEmbeddedResourceMiddle(), new GetRegistrysContentMiddle(), new GetVersionMiddle() };
         }
 
         internal string[] Handle(string input)
