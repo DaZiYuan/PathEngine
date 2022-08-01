@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PathEngine.Pipelines;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -19,6 +18,11 @@ namespace PathEngine
         /// 一般不用改，只是为了方便单元测试
         /// </summary>
         public static Assembly EntryAssembly { get; set; }
+
+        public object Set(string path, object value)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 默认访问实例

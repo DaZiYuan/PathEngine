@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PathEngine;
 using System.Diagnostics;
 using System.Reflection;
@@ -9,7 +7,7 @@ using System.Reflection;
 namespace TestProject
 {
     [TestClass]
-    public class PathResolverTest
+    public class GetTest
     {
         [TestMethod]
         public void GetPath()
