@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{AFDC8CED-5E33-46F5-9D27-7E033152C2BE}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\Build.md = ..\docs\Build.md
+		..\docs\Design.md = ..\docs\Design.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

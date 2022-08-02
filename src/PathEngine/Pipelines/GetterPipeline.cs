@@ -8,14 +8,14 @@ namespace PathEngine.Pipelines
         readonly IGetterMiddle[] _middles;
         internal GetterPipeline()
         {
-            _middles = new IGetterMiddle[] { new GetPathMiddle(), new GetContentMiddle(), new GetEmbeddedResourceMiddle(), new GetRegistrysContentMiddle(), new GetVersionMiddle() };
+            _middles = new IGetterMiddle[] { new GetPathMiddle(), new GetListMiddle(), new GetContentMiddle(), new GetVersionMiddle() };
         }
 
-        internal PayloadData[] Handle(string input)
+        internal GetterPipelinePayloadData[] Handle(string input)
         {
             try
             {
-                var payload = new Payload(input);
+                var payload = new GetterPipelinePayload(input);
                 foreach (var item in _middles)
                 {
                     payload = item.Input(payload);
@@ -24,7 +24,7 @@ namespace PathEngine.Pipelines
             }
             catch (Exception)
             {
-                return Array.Empty<PayloadData>();
+                return Array.Empty<GetterPipelinePayloadData>();
             }
         }
     }

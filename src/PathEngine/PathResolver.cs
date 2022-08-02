@@ -2,6 +2,7 @@
 using PathEngine.Pipelines;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -14,13 +15,14 @@ namespace PathEngine
         static PathResolver()
         {
             EntryAssembly = Assembly.GetEntryAssembly()!;
+            Variables["%app_folder%"] = Path.GetDirectoryName(EntryAssembly.Location)!;
         }
         /// <summary>
         /// 一般不用改，只是为了方便单元测试
         /// </summary>
         public static Assembly EntryAssembly { get; set; }
 
-        public Dictionary<string, string> Variables { get; private set; } = new();
+        public static Dictionary<string, string> Variables { get; private set; } = new();
 
         public object Set(string path, object value)
         {
@@ -51,13 +53,12 @@ namespace PathEngine
 
         public string? Get(string path)
         {
-            var res = List(path);
-            return res.Length > 0 ? res[0] : null;
+            return Get<string>(path);
         }
         public T? Get<T>(string path)
         {
-            var res = List<T>(path);
-            return res.Length > 0 ? res[0] : default;
+            var res = _getterPipeline.Handle(path);
+            return res.Length > 0 ? res[0].GetValue<T>() : default;
         }
 
         public string?[] List(string path)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,14 +9,15 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// <summary>
     /// 获取注册表内容
     /// </summary>
+    [Obsolete]
     internal class GetRegistrysContentMiddle : IGetterMiddle
     {
         public const string Command = "registry";
-        Payload IGetterMiddle.Input(Payload payload)
+        GetterPipelinePayload IGetterMiddle.Input(GetterPipelinePayload payload)
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<PayloadData?> res = new();
+                List<GetterPipelinePayloadData> res = new();
                 foreach (var item in payload.Data)
                 {
                     var tmp = item.GetValue().Split(':');
@@ -30,19 +32,19 @@ namespace PathEngine.Pipelines.GetterMiddles
                         }
 
                         var tmpRes = registryKey?.GetValue(registryData);
-                        PayloadData? tmpResulItem = null;
+                        GetterPipelinePayloadData tmpResulItem = new GetterPipelinePayloadData(null);
                         if (tmpRes is byte[] tmpBytes)
-                            tmpResulItem = new PayloadData(System.Text.Encoding.UTF8.GetString(tmpBytes));
+                            tmpResulItem = new GetterPipelinePayloadData(System.Text.Encoding.UTF8.GetString(tmpBytes));
                         else if (tmpRes is int tmpInt)
-                            tmpResulItem = new PayloadData(tmpInt);
+                            tmpResulItem = new GetterPipelinePayloadData(tmpInt);
                         else if (tmpRes != null)
-                            tmpResulItem = new PayloadData(tmpRes?.ToString());
+                            tmpResulItem = new GetterPipelinePayloadData(tmpRes?.ToString());
                         res.Add(tmpResulItem);
                     }
                     else
-                        res.Add(null);
+                        res.Add(new GetterPipelinePayloadData(null));
                 }
-                payload.SetData(res?.ToArray()!);
+                payload.SetData(res.ToArray());
             }
             return payload;
         }

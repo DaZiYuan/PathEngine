@@ -8,11 +8,11 @@ namespace PathEngine.Pipelines.GetterMiddles
     /// </summary>
     internal class GetVersionMiddle : IGetterMiddle
     {
-        Payload IGetterMiddle.Input(Payload payload)
+        GetterPipelinePayload IGetterMiddle.Input(GetterPipelinePayload payload)
         {
             if (payload.Command.Schemas.Contains("version"))
             {
-                List<PayloadData> res = new();
+                List<GetterPipelinePayloadData> res = new();
                 foreach (var dataItem in payload.Data)
                 {
                     string tmpRes;

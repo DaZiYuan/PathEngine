@@ -2,6 +2,6 @@
 {
     public interface IGetterMiddle
     {
-        Payload Input(Payload input);
+        GetterPipelinePayload Input(GetterPipelinePayload input);
     }
 }

@@ -8,13 +8,13 @@ using System.Text.RegularExpressions;
 
 namespace PathEngine.Pipelines
 {
-    public class PayloadData
+    public class GetterPipelinePayloadData
     {
-        public PayloadData()
+        public GetterPipelinePayloadData()
         {
-            
+
         }
-        public PayloadData(object? content)
+        public GetterPipelinePayloadData(object? content)
         {
             Content = content;
         }
@@ -32,6 +32,8 @@ namespace PathEngine.Pipelines
             switch (type)
             {
                 case Type t when t == typeof(string):
+                    if (Content is PathData pathData)
+                        return (T?)Convert.ChangeType(pathData.Path.ToString(), type);
                     return (T?)Convert.ChangeType(Content?.ToString(), type);
                 case Type t when t == typeof(int):
                     return (T?)Convert.ChangeType((int?)Content, type);
@@ -42,7 +44,7 @@ namespace PathEngine.Pipelines
             return default;
         }
     }
-    public class Payload
+    public class GetterPipelinePayload
     {
         public class InnerCommand
         {
@@ -57,17 +59,12 @@ namespace PathEngine.Pipelines
                 }
                 else
                 {
-                    //根据内容生成命令
                     URN = source;
-                    List<string> commands = new();
-                    if (URN.StartsWith("HKEY_"))
+                    List<string> commands = new()
                     {
-                        commands.Add(GetRegistrysContentMiddle.Command);
-                    }
-                    else
-                    {
-                        commands.Add(GetPathMiddle.Command);
-                    }
+                        //默认path命令
+                        GetPathMiddle.Command
+                    };
                     Schemas = new ReadOnlyCollection<string>(commands);
                 }
             }
@@ -76,13 +73,13 @@ namespace PathEngine.Pipelines
             public string URN { get; set; }
         }
 
-        public Payload(string command, string? content = null)
+        public GetterPipelinePayload(string command, string? content = null)
         {
             Command = new InnerCommand(command);
-            Data = new PayloadData[] { new PayloadData(content ?? Command.URN) };
+            Data = new GetterPipelinePayloadData[] { new GetterPipelinePayloadData(content ?? Command.URN) };
         }
 
-        public void SetData(PayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
+        public void SetData(GetterPipelinePayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
             Data = data;
             callerFilePath = callerFilePath[callerFilePath.LastIndexOf(@"\")..];
@@ -90,7 +87,7 @@ namespace PathEngine.Pipelines
             Logger.Add($"{caller} ${data}");
         }
         public List<string> Logger { get; } = new List<string>();
-        public PayloadData[] Data { get; private set; }
+        public GetterPipelinePayloadData[] Data { get; private set; }
         public InnerCommand Command { get; private set; }
     }
 }
