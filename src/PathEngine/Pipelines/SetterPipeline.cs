@@ -3,12 +3,12 @@ using System;
 
 namespace PathEngine.Pipelines
 {
-    internal class GetterPipeline
+    internal class SetterPipeline
     {
         readonly IMiddle[] _middles;
-        internal GetterPipeline()
+        internal SetterPipeline()
         {
-            _middles = new IMiddle[] { new GetPathMiddle(), new GetListMiddle(), new GetContentMiddle(), new GetVersionMiddle() };
+            _middles = new IMiddle[] { new GetPathMiddle(), new SetContentMiddle() };
         }
 
         internal PayloadData[] Handle(string input)

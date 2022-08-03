@@ -8,15 +8,15 @@ namespace PathEngine.Pipelines.Middles
     /// <summary>
     /// 转换通配符 %xxx%
     /// </summary>
-    internal class GetPathMiddle : IGetterMiddle
+    internal class GetPathMiddle : IMiddle
     {
         public const string Command = "path";
 
-        public GetterPipelinePayload Input(GetterPipelinePayload payload)
+        public Payload Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<GetterPipelinePayloadData> res = new();
+                List<PayloadData> res = new();
                 foreach (var dataItem in payload.Data)
                 {
                     string path = Environment.ExpandEnvironmentVariables(dataItem.GetValue());
@@ -29,7 +29,7 @@ namespace PathEngine.Pipelines.Middles
                         }
                     }
 
-                    res.Add(new GetterPipelinePayloadData(new PathData(path)));
+                    res.Add(new PayloadData(new PathData(path)));
                 }
                 payload.SetData(res.ToArray());
             }
@@ -37,15 +37,15 @@ namespace PathEngine.Pipelines.Middles
             return payload;
         }
 
-        private List<GetterPipelinePayloadData> InnerGetAllPath(params string[] paths)
+        private List<PayloadData> InnerGetAllPath(params string[] paths)
         {
-            List<GetterPipelinePayloadData> result = new();
+            List<PayloadData> result = new();
             foreach (var path in paths)
             {
                 if (!path.Contains('*'))
                 {
                     //不包含通配符
-                    result.Add(new GetterPipelinePayloadData(path));
+                    result.Add(new PayloadData(path));
                     continue;
                 }
 
@@ -77,7 +77,7 @@ namespace PathEngine.Pipelines.Middles
                             {
                                 //文件名通配符
                                 var allPath = dInfo.GetFiles(pathItem).OrderByDescending(m => m.LastWriteTime).Select(m => m.FullName).ToArray();
-                                result.AddRange(allPath.Select(x => new GetterPipelinePayloadData(x)).ToList());
+                                result.AddRange(allPath.Select(x => new PayloadData(x)).ToList());
                             }
                         }
                         catch (Exception ex)

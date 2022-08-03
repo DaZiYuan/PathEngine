@@ -1,16 +1,15 @@
 ﻿using PathEngine.Helpers;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PathEngine.Pipelines.Middles
 {
-    /// <summary>
-    /// 获取文件内容
-    /// </summary>
-    internal class GetContentMiddle : IMiddle
+    internal class SetContentMiddle : IMiddle
     {
-        Payload IMiddle.Input(Payload payload)
+        public Payload Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains("content"))
             {

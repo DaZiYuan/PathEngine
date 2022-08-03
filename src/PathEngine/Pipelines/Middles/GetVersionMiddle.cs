@@ -6,13 +6,13 @@ namespace PathEngine.Pipelines.Middles
     /// <summary>
     /// 获取版本号
     /// </summary>
-    internal class GetVersionMiddle : IGetterMiddle
+    internal class GetVersionMiddle : IMiddle
     {
-        GetterPipelinePayload IGetterMiddle.Input(GetterPipelinePayload payload)
+        Payload IMiddle.Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains("version"))
             {
-                List<GetterPipelinePayloadData> res = new();
+                List<PayloadData> res = new();
                 foreach (var dataItem in payload.Data)
                 {
                     string tmpRes;

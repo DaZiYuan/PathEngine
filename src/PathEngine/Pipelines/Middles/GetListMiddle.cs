@@ -7,14 +7,14 @@ namespace PathEngine.Pipelines.Middles
     /// <summary>
     /// 获取文件，注册表，嵌入资源等列表
     /// </summary>
-    internal class GetListMiddle : IGetterMiddle
+    internal class GetListMiddle : IMiddle
     {
         public const string Command = "list";
-        public GetterPipelinePayload Input(GetterPipelinePayload payload)
+        public Payload Input(Payload payload)
         {
             if (payload.Command.Schemas.Contains(Command))
             {
-                List<GetterPipelinePayloadData> res = new();
+                List<PayloadData> res = new();
                 foreach (var item in payload.Data)
                 {
                     List<string> tmpRes = new();
@@ -38,7 +38,7 @@ namespace PathEngine.Pipelines.Middles
                             break;
                     }
 
-                    res.AddRange(tmpRes.Select(x => new GetterPipelinePayloadData(x)));
+                    res.AddRange(tmpRes.Select(x => new PayloadData(x)));
                 }
                 payload.SetData(res.ToArray());
             }

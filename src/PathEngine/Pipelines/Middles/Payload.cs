@@ -1,20 +1,19 @@
-﻿using PathEngine.Pipelines.Middles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace PathEngine.Pipelines
+namespace PathEngine.Pipelines.Middles
 {
-    public class GetterPipelinePayloadData
+    public class PayloadData
     {
-        public GetterPipelinePayloadData()
+        public PayloadData()
         {
 
         }
-        public GetterPipelinePayloadData(object? content)
+        public PayloadData(object? content)
         {
             Content = content;
         }
@@ -44,7 +43,7 @@ namespace PathEngine.Pipelines
             return default;
         }
     }
-    public class GetterPipelinePayload
+    public class Payload
     {
         public class InnerCommand
         {
@@ -73,13 +72,13 @@ namespace PathEngine.Pipelines
             public string URN { get; set; }
         }
 
-        public GetterPipelinePayload(string command, string? content = null)
+        public Payload(string command, string? content = null)
         {
             Command = new InnerCommand(command);
-            Data = new GetterPipelinePayloadData[] { new GetterPipelinePayloadData(content ?? Command.URN) };
+            Data = new PayloadData[] { new PayloadData(content ?? Command.URN) };
         }
 
-        public void SetData(GetterPipelinePayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
+        public void SetData(PayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
             Data = data;
             callerFilePath = callerFilePath[callerFilePath.LastIndexOf(@"\")..];
@@ -87,7 +86,7 @@ namespace PathEngine.Pipelines
             Logger.Add($"{caller} ${data}");
         }
         public List<string> Logger { get; } = new List<string>();
-        public GetterPipelinePayloadData[] Data { get; private set; }
+        public PayloadData[] Data { get; private set; }
         public InnerCommand Command { get; private set; }
     }
 }
