@@ -20,34 +20,47 @@ PathResolver.Instance.Get("TestProject.Configs.config.txt");
 
 ```
 
-- 文件搜索
+- 文件/子项搜索
 
 ```csharp
+//文件目录
 PathResolver.Instance.List(@"path:\%ProgramData%\*\*\*.txt");
 //C:\ProgramData\chocolatey\bin\_processed.txt
 //...
 //C:\ProgramData\NVIDIA Corporation\NvStreamSrv\settings.txt
+
+//注册表目录
+PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\*");
+//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\:Enable64Bit
+...
+//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\:DbgJITDebugLaunchSetting
 ```
 
-- 文件夹搜索
+- 目录搜索
+
+注意：搜索目录一定要以\结尾
 
 ```csharp
+// 文件目录
 PathResolver.Instance.List(@"path:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.Compilers,version=4.2.0.2228105,productarch=neutral
 //...
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.VisualStudio.Setup.Resources,version=15.9.28218.60,language=zh-CN
+
+//注册表目录
+PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\win*\");
+//HKEY_LOCAL_MACHINE\SOFTWARE\Windows
 ```
 
-- 获取嵌入文件内容
+- 获取内容
 
 ```csharp
-PathResolver.Instance.Get(@"embedded:\Configs\config.txt");
-```
-
-- 获取文件内容
-
-```csharp
-PathResolver.Instance.Get(@"path_content:\Configs\config2.txt");
+//文件
+PathResolver.Instance.Get(@"path_content:\Configs\config.txt");
+//注册表
+PathResolver.Instance.Get(@"path_content:\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}:pv");
+//嵌入资源
+var res3 = PathResolver.Instance.Get(@"path_content:\Configs.config.txt");
 ```
 
 - 获取文件版本号
@@ -59,30 +72,7 @@ var res = PathResolver.Instance.Get(@$"version:\C:\Windows\System32\cmd.exe");
 
 ## 写入
 
-[代码](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
-
-# 使用路径字符串轻松读写 Windows 资源
-
-- [x] 真实路径解析
-  - [x] 环境变量解析
-    - 例：`path:\%appdata%\path`
-  - [ ] 自定义路径解析
-    - 例：`path:\%xx%\path`
-  - [x] 模糊匹配文件
-    - 例：`path:\%xx%\path\*\*\*.txt`
-  - [x] 模糊匹配文件夹
-    - 例：`path:\%xx%\path\*\*\`，注意斜线结尾
-- [ ] 内容获取
-  - [x] 获取获取注册表内容
-    - 例：`registry:\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\path`
-  - [x] 获取文件夹版本号
-    - 例：`version:\path`
-  - [x] 获取文件内容
-    - 例：`content:\path`
-  - [x] 获取 Dll 嵌入资源内容
-    - 例：`embedded:\path`
-- [ ] 写入内容
-  - [ ] todo
+[更多示例](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
 
 # Library:
 

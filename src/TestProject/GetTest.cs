@@ -40,16 +40,35 @@ namespace TestProject
             //搜索目录
             var res1 = PathResolver.Instance.List(@"path_list:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
             Assert.IsTrue(res1 != null && res1.Length > 1);
-             
+
             //搜索文件
             var res2 = PathResolver.Instance.List(@"path_list:\%ProgramData%\*\*\*.txt");
             Assert.IsTrue(res2 != null && res1.Length > 1);
 
-            //搜索注册表项
-            //res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\*");
-            //Assert.IsTrue(res1 != null && res1.Length > 1);
+            //搜索注册表目录
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\*\");
+            Assert.IsTrue(res1 != null && res1.Length > 1);
+
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\win*\");
+            Assert.IsTrue(res1 != null && res1.Length == 1);
+            Assert.IsTrue(res1[0] == @"HKEY_LOCAL_MACHINE\SOFTWARE\Windows");
+
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\*crosoft\");
+            Assert.IsTrue(res1 != null && res1.Length == 1);
+            Assert.IsTrue(res1[0] == @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft");
+
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\win*ws\");
+            Assert.IsTrue(res1 != null && res1.Length > 1);
+
+            //搜索子目录
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\*\");
+            Assert.IsTrue(res1 != null && res1.Length > 1);
 
             //搜索注册表值
+            res1 = PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\*");
+            Assert.IsTrue(res1 != null && res1.Length > 1);
+            var test = PathResolver.Instance.Get(@$"path_content:\{res1[0]}");
+            Assert.IsNotNull(test);
 
             //搜索嵌入资源目录
 

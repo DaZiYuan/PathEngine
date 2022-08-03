@@ -29,13 +29,13 @@ namespace PathEngine.Pipelines.GetterMiddles
                         switch (pData.Type)
                         {
                             case PathDataType.File:
-                                content = FileHelper.GetContent(pData.Path);
+                                content = FileHelper.Instance.GetContent(pData.Path);
                                 break;
                             case PathDataType.Registry:
-                                content = RegistryHelper.GetContent(pData.Path);
+                                content = RegistryHelper.Instance.GetContent(pData.Path);
                                 break;
                             case PathDataType.Embedded:
-                                content = EmbeddedResourceHelper.GetContent(pData.Path);
+                                content = EmbeddedResourceHelper.Instance.GetContent(pData.Path);
                                 break;
                         }
                         res.Add(new GetterPipelinePayloadData(content));

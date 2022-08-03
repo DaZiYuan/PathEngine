@@ -11,6 +11,10 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Pipelines\GetterMiddles\GetEmbeddedResourceMiddle.cs" />
+    <Compile Remove="Pipelines\GetterMiddles\GetRegistrysContentMiddle.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

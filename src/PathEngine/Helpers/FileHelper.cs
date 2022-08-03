@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PathEngine.Helpers
 {
     internal class FileHelper
     {
-        internal static string? GetContent(string path)
+        internal static FileHelper Instance { get; set; } = new FileHelper();
+        internal string? GetContent(string path)
         {
             using var reader = new StreamReader(path);
             var content = reader.ReadToEnd();
             return content;
         }
 
-        internal static List<string> GetList(params string[] paths)
+        internal List<string> GetList(params string[] paths)
         {
             List<string> result = new();
             foreach (var path in paths)
@@ -33,7 +36,7 @@ namespace PathEngine.Helpers
                     bool isLastOne = i == pathSlices.Length - 1;
                     var pathItem = pathSlices[i];
 
-                    if (pathItem.Contains('*'))
+                    if (currentPath != null && pathItem.Contains('*'))
                     {
                         if (isLastOne)
                         {
@@ -71,7 +74,7 @@ namespace PathEngine.Helpers
         }
 
         //搜索文件
-        protected static List<string> SearchFile(string? path, string searchKey)
+        protected virtual List<string> SearchFile(string path, string searchKey)
         {
             List<string> result = new();
             if (!Directory.Exists(path))
@@ -92,7 +95,7 @@ namespace PathEngine.Helpers
         }
 
         //搜索目录
-        protected static List<string> SearchFolder(string? path, string searchKey)
+        protected virtual List<string> SearchFolder(string path, string searchKey)
         {
             List<string> result = new();
             if (!Directory.Exists(path))

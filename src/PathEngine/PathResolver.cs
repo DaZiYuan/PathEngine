@@ -61,6 +61,11 @@ namespace PathEngine
             return res.Length > 0 ? res[0].GetValue<T>() : default;
         }
 
+        /// <summary>
+        /// 搜索目录以 斜线结尾
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public string?[] List(string path)
         {
             var res = List<string>(path);
