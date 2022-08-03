@@ -17,7 +17,7 @@ namespace PathEngine.Helpers
             var tmp = path.Split(':');
             if (tmp.Length > 1)
             {
-                var registryKey = GetRegistryKey(tmp[0]);
+                using var registryKey = GetRegistryKey(tmp[0]);
                 var registryData = tmp[1];
                 if (registryData.Contains('*'))
                 {
@@ -35,7 +35,7 @@ namespace PathEngine.Helpers
         protected override List<string> SearchFile(string path, string searchKey)
         {
             List<string> result = new();
-            var registryKey = GetRegistryKey(path);
+            using var registryKey = GetRegistryKey(path);
             if (registryKey != null)
             {
                 result = registryKey.GetValueNames().ToList();
@@ -49,7 +49,7 @@ namespace PathEngine.Helpers
         protected override List<string> SearchFolder(string path, string searchKey)
         {
             List<string> result = new();
-            var registryKey = GetRegistryKey(path);
+            using var registryKey = GetRegistryKey(path);
             if (registryKey != null)
             {
                 result = registryKey.GetSubKeyNames().ToList();
@@ -57,6 +57,32 @@ namespace PathEngine.Helpers
             }
             result = result.Select(x => Path.Combine(path, x)).ToList();
             return result;
+        }
+
+        internal override bool SetContent(string path, object? value)
+        {
+            try
+            {
+                var tmp = path.Split(':');
+                if (tmp.Length > 1)
+                {
+                    using var registryKey = GetRegistryKey(tmp[0], true, true);
+                    var registryName = tmp[1];
+                    if (registryName.Contains('*'))
+                    {
+                        var names = registryKey?.GetValueNames();
+                        registryName = names?.FirstOrDefault(m => SearchStr(m, registryName));
+                    }
+
+                    registryKey?.SetValue(registryName, value);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return false;
+            }
         }
 
         internal static RegistryKey? GetRootRegistry(string path, out string keyPath)
@@ -80,13 +106,14 @@ namespace PathEngine.Helpers
             return null;
         }
 
-        internal static RegistryKey? GetRegistryKey(string path, bool canWrite = false)
+        internal static RegistryKey? GetRegistryKey(string path, bool canWrite = false, bool autoCreate = false)
         {
             using RegistryKey? rootKey = GetRootRegistry(path, out string keyPath);
             RegistryKey? key = rootKey?.OpenSubKey(keyPath, canWrite);
+            if (key == null && autoCreate)
+                key = rootKey?.CreateSubKey(keyPath, RegistryKeyPermissionCheck.ReadWriteSubTree);
             return key;
         }
-
 
         internal static bool SearchStr(string str, string searchKey)
         {
@@ -95,7 +122,7 @@ namespace PathEngine.Helpers
             string searchText = searchKey.Replace("*", "");
             if (string.IsNullOrEmpty(searchText))
                 return true;
-            
+
             //*abc
             if (searchKey.StartsWith("*"))
             {

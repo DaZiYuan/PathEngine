@@ -17,25 +17,27 @@ namespace PathEngine.Pipelines.Middles
                 List<PayloadData> res = new();
                 foreach (var item in payload.Data)
                 {
-                    //不是path，直接返回原有值
-                    if (item.Content is not PathData pData)
+                    string path = item.GetValue();
+                    PathDataType type = PathDataType.File;
+                    if (item.Content is PathData pData)
                     {
-                        res.Add(item);
-                        continue;
+                        path = pData.Path;
+                        type = pData.Type;
                     }
+
                     try
                     {
                         object? content = null;
-                        switch (pData.Type)
+                        switch (type)
                         {
                             case PathDataType.File:
-                                content = FileHelper.Instance.GetContent(pData.Path);
+                                content = FileHelper.Instance.GetContent(path);
                                 break;
                             case PathDataType.Registry:
-                                content = RegistryHelper.Instance.GetContent(pData.Path);
+                                content = RegistryHelper.Instance.GetContent(path);
                                 break;
                             case PathDataType.Embedded:
-                                content = EmbeddedResourceHelper.Instance.GetContent(pData.Path);
+                                content = EmbeddedResourceHelper.Instance.GetContent(path);
                                 break;
                         }
                         res.Add(new PayloadData(content));

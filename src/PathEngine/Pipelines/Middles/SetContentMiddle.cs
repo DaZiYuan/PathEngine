@@ -1,40 +1,40 @@
 ﻿using PathEngine.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PathEngine.Pipelines.Middles
 {
     internal class SetContentMiddle : IMiddle
     {
+        public const string Command = "content";
         public Payload Input(Payload payload)
         {
-            if (payload.Command.Schemas.Contains("content"))
+            if (payload.Command.Schemas.Contains(Command))
             {
                 List<PayloadData> res = new();
                 foreach (var item in payload.Data)
                 {
-                    //不是path，直接返回原有值
-                    if (item.Content is not PathData pData)
+                    string path = item.GetValue();
+                    PathDataType type = PathDataType.File;
+                    if (item.Content is PathData pData)
                     {
-                        res.Add(item);
-                        continue;
+                        path = pData.Path;
+                        type = pData.Type;
                     }
+
                     try
                     {
                         object? content = null;
-                        switch (pData.Type)
+                        switch (type)
                         {
                             case PathDataType.File:
-                                content = FileHelper.Instance.GetContent(pData.Path);
+                                content = FileHelper.Instance.SetContent(path, payload.Value);
                                 break;
                             case PathDataType.Registry:
-                                content = RegistryHelper.Instance.GetContent(pData.Path);
+                                content = RegistryHelper.Instance.SetContent(path, payload.Value);
                                 break;
                             case PathDataType.Embedded:
-                                content = EmbeddedResourceHelper.Instance.GetContent(pData.Path);
+                                content = EmbeddedResourceHelper.Instance.SetContent(path, payload.Value);
                                 break;
                         }
                         res.Add(new PayloadData(content));

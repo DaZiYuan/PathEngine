@@ -19,12 +19,13 @@ namespace PathEngine.Helpers
                 path = tmp[1];
             }
 
-            if (assemblyName == null)
-            {
-                assemblyName = assembly.GetName().Name;
-            }
-
             if (assembly == null)
+                return null;
+
+            if (assemblyName == null)
+                assemblyName = assembly.GetName().Name;
+
+            if (assemblyName == null)
                 return null;
 
             if (!path.StartsWith(assemblyName))

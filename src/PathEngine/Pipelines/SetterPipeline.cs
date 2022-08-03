@@ -11,11 +11,10 @@ namespace PathEngine.Pipelines
             _middles = new IMiddle[] { new GetPathMiddle(), new SetContentMiddle() };
         }
 
-        internal PayloadData[] Handle(string input)
+        internal PayloadData[] Handle(Payload payload)
         {
             try
             {
-                var payload = new Payload(input);
                 foreach (var item in _middles)
                 {
                     payload = item.Input(payload);

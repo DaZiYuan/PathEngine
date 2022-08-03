@@ -73,6 +73,11 @@ namespace PathEngine.Helpers
             return result;
         }
 
+        internal virtual bool SetContent(string path, object? value)
+        {
+            throw new NotImplementedException();
+        }
+
         //搜索文件
         protected virtual List<string> SearchFile(string path, string searchKey)
         {

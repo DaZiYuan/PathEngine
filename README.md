@@ -72,6 +72,12 @@ var res = PathResolver.Instance.Get(@$"version:\C:\Windows\System32\cmd.exe");
 
 ## 写入
 
+```csharp
+//设置注册表项
+PathResolver.Instance.Set(@"content:\HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key", "1");
+PathResolver.Instance.Set(@"HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key2", 2);
+```
+
 [更多示例](https://github.com/DaZiYuan/path-engine/blob/main/src/TestProject/PathResolverTest.cs)
 
 # Library:

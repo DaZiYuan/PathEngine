@@ -53,7 +53,7 @@ namespace PathEngine.Pipelines.Middles
                 var matches = Regex.Match(source, pattern);
                 if (matches.Success && matches.Groups.Count > 2)
                 {
-                    Schemas = new ReadOnlyCollection<string>(matches.Groups[1].Value.Split('_'));
+                    Schemas = new List<string>(matches.Groups[1].Value.Split('_'));
                     URN = matches.Groups[2].Value;
                 }
                 else
@@ -64,18 +64,19 @@ namespace PathEngine.Pipelines.Middles
                         //默认path命令
                         GetPathMiddle.Command
                     };
-                    Schemas = new ReadOnlyCollection<string>(commands);
+                    Schemas = new List<string>(commands);
                 }
             }
 
-            public ReadOnlyCollection<string> Schemas { get; set; }
+            public List<string> Schemas { get; set; }
             public string URN { get; set; }
         }
 
-        public Payload(string command, string? content = null)
+        public Payload(string command, string? content = null, object? value = null)
         {
             Command = new InnerCommand(command);
             Data = new PayloadData[] { new PayloadData(content ?? Command.URN) };
+            Value = value;
         }
 
         public void SetData(PayloadData[] data, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
@@ -87,6 +88,7 @@ namespace PathEngine.Pipelines.Middles
         }
         public List<string> Logger { get; } = new List<string>();
         public PayloadData[] Data { get; private set; }
+        public object? Value { get; private set; }
         public InnerCommand Command { get; private set; }
     }
 }

@@ -82,6 +82,11 @@ namespace TestProject
             var res = PathResolver.Instance.Get(@$"version:\{exe}");
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(exe)!;
             Assert.IsTrue(res == version.FileVersion!.ToString());
+
+            res = PathResolver.Instance.Get(@$"version:\TestProject.dll");
+            string? res1 = PathResolver.Instance.Get(@$"path_version:\%app_folder%\TestProject.dll");
+            Assert.IsNotNull(res);
+            Assert.IsTrue(res == res1);
         }
 
         //[TestMethod]

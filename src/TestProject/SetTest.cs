@@ -10,14 +10,16 @@ using System.Threading.Tasks;
 namespace TestProject
 {
     [TestClass]
-    internal class SetTest
+    public class SetTest
     {
         [TestMethod]
-        public void SetEmbeddedResource()
+        public void SetContent()
         {
             PathResolver.EntryAssembly = Assembly.GetExecutingAssembly();
-            var res = PathResolver.Instance.Set(@"HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key", "1");            
-            var res1 = PathResolver.Instance.Set(@"HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key2", 2);            
+
+            //设置注册表
+            var res = PathResolver.Instance.Set(@"path_content:\HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key", "1");
+            var res1 = PathResolver.Instance.Set(@"path:\HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key2", 2);
         }
     }
 }

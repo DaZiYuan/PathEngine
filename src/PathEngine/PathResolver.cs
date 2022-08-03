@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PathEngine.Pipelines;
-using System;
+using PathEngine.Pipelines.Middles;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace PathEngine
     public class PathResolver
     {
         private readonly GetterPipeline _getterPipeline = new();
+        private readonly SetterPipeline _setterPipeline = new();
         static PathResolver()
         {
             EntryAssembly = Assembly.GetEntryAssembly()!;
@@ -23,11 +24,6 @@ namespace PathEngine
         public static Assembly EntryAssembly { get; set; }
 
         public static Dictionary<string, string> Variables { get; private set; } = new();
-
-        public object Set(string path, object value)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// 默认访问实例
@@ -55,9 +51,24 @@ namespace PathEngine
         {
             return Get<string>(path);
         }
+
+
+        public bool Set(string path, object value)
+        {
+            var payload = new Payload(path, null, value);
+            if (!payload.Command.Schemas.Contains(SetContentMiddle.Command))
+            {
+                payload.Command.Schemas.Add(SetContentMiddle.Command);//自动补齐 content命令
+            }
+            var res = _setterPipeline.Handle(payload);
+            return res.Length > 0 ? res[0].GetValue<bool>() : false;
+        }
+
+
         public T? Get<T>(string path)
         {
-            var res = _getterPipeline.Handle(path);
+            var payload = new Payload(path);
+            var res = _getterPipeline.Handle(payload);
             return res.Length > 0 ? res[0].GetValue<T>() : default;
         }
 
@@ -74,7 +85,8 @@ namespace PathEngine
 
         public T?[] List<T>(string path)
         {
-            var res = _getterPipeline.Handle(path);
+            var payload = new Payload(path);
+            var res = _getterPipeline.Handle(payload);
             return res.Select(x => x.GetValue<T>()).ToArray();
         }
 
