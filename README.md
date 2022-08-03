@@ -24,7 +24,7 @@ PathResolver.Instance.Get("TestProject.Configs.config.txt");
 
 ```csharp
 //文件目录
-PathResolver.Instance.List(@"path:\%ProgramData%\*\*\*.txt");
+PathResolver.Instance.List(@"path_list:\%ProgramData%\*\*\*.txt");
 //C:\ProgramData\chocolatey\bin\_processed.txt
 //...
 //C:\ProgramData\NVIDIA Corporation\NvStreamSrv\settings.txt
@@ -42,7 +42,7 @@ PathResolver.Instance.List(@"path_list:\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.N
 
 ```csharp
 // 文件目录
-PathResolver.Instance.List(@"path:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
+PathResolver.Instance.List(@"path_list:\%ProgramData%\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis*\");
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.Compilers,version=4.2.0.2228105,productarch=neutral
 //...
 //C:\ProgramData\Microsoft\VisualStudio\Packages\Microsoft.CodeAnalysis.VisualStudio.Setup.Resources,version=15.9.28218.60,language=zh-CN

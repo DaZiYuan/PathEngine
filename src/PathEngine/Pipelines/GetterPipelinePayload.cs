@@ -1,4 +1,4 @@
-﻿using PathEngine.Pipelines.GetterMiddles;
+﻿using PathEngine.Pipelines.Middles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

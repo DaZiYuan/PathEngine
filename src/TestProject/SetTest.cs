@@ -16,8 +16,8 @@ namespace TestProject
         public void SetEmbeddedResource()
         {
             PathResolver.EntryAssembly = Assembly.GetExecutingAssembly();
-            var res = PathResolver.Instance.Set(@"embedded:\Configs\config3.txt","1");            
-            var res1 = PathResolver.Instance.Set(@"embedded:\Configs\config3.txt", 1);            
+            var res = PathResolver.Instance.Set(@"HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key", "1");            
+            var res1 = PathResolver.Instance.Set(@"HKEY_LOCAL_MACHINE\SOFTWARE\MyApp:key2", 2);            
         }
     }
 }
