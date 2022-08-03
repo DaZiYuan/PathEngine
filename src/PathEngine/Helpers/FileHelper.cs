@@ -48,6 +48,7 @@ namespace PathEngine.Helpers
                             tmp = tmp.Select(x =>
                             {
                                 var r = Path.Combine(x, string.Join("\\", restSlices));
+                                //System.Diagnostics.Debug.WriteLine(r);
                                 return r;
                             }).ToList();
 
@@ -58,9 +59,8 @@ namespace PathEngine.Helpers
                                 result.AddRange(tmpRes);
                             });
 
-                            //没有子目录，终止
-                            if (result.Count == 0)
-                                break;
+                            //包含通配符就终止了，递归会查询后面的路径
+                            break;
                         }
                     }
 
@@ -97,7 +97,7 @@ namespace PathEngine.Helpers
             List<string> result = new();
             if (!Directory.Exists(path))
                 return result;
-            
+
             try
             {
                 DirectoryInfo dInfo = new(path);
