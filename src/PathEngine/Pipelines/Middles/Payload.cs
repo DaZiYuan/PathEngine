@@ -38,6 +38,8 @@ namespace PathEngine.Pipelines.Middles
                     return (T?)Convert.ChangeType((int?)Content, type);
                 case Type t when t == typeof(byte[]):
                     return (T?)Convert.ChangeType((byte[]?)Content, type);
+                case Type t when t == typeof(bool):
+                    return (T?)Convert.ChangeType((bool?)Content, type);
                 default:
                     break;
             }
