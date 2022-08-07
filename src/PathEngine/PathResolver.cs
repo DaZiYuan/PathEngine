@@ -29,7 +29,7 @@ namespace PathEngine
             {
                 _entryAssembly = value;
                 if (EntryAssembly != null)
-                    Variables["%app_folder%"] = Path.GetDirectoryName(EntryAssembly.Location);
+                    Variables["%app_folder%"] = Path.GetDirectoryName(EntryAssembly.Location) ?? string.Empty;
                 else
                     Variables.Clear();
             }
@@ -72,7 +72,7 @@ namespace PathEngine
                 payload.Command.Schemas.Add(SetContentMiddle.Command);//自动补齐 content命令
             }
             var res = _setterPipeline.Handle(payload);
-            return res.Length > 0 ? res[0].GetValue<bool>() : false;
+            return res.Length > 0 && res[0].GetValue<bool>();
         }
 
 

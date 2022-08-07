@@ -30,7 +30,7 @@ namespace PathEngine.Helpers
 
             if (!path.StartsWith(assemblyName))
                 path = $"{assemblyName}.{path.Replace(@"\", ".")}";
-            using StreamReader? reader = new(PathResolver.EntryAssembly.GetManifestResourceStream(path)!);
+            using StreamReader? reader = new(PathResolver.EntryAssembly?.GetManifestResourceStream(path)!);
             string? res = reader.ReadToEnd();
             return res;
         }

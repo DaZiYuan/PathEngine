@@ -74,7 +74,7 @@ namespace PathEngine.Helpers
                         registryName = names?.FirstOrDefault(m => SearchStr(m, registryName));
                     }
 
-                    registryKey?.SetValue(registryName, value);
+                    registryKey?.SetValue(registryName, value ?? string.Empty);
                 }
                 return true;
             }
