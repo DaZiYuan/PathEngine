@@ -21,8 +21,19 @@ namespace PathEngine
         /// <summary>
         /// 一般不用改，只是为了方便单元测试
         /// </summary>
-        public static Assembly EntryAssembly { get; set; }
-
+        private static Assembly? _entryAssembly;
+        public static Assembly? EntryAssembly
+        {
+            get => _entryAssembly;
+            set
+            {
+                _entryAssembly = value;
+                if (EntryAssembly != null)
+                    Variables["%app_folder%"] = Path.GetDirectoryName(EntryAssembly.Location);
+                else
+                    Variables.Clear();
+            }
+        }
         public static Dictionary<string, string> Variables { get; private set; } = new();
 
         /// <summary>
