@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace PathEngine.Helpers
 {
@@ -12,6 +10,8 @@ namespace PathEngine.Helpers
         internal static FileHelper Instance { get; set; } = new FileHelper();
         internal string? GetContent(string path)
         {
+            if (!File.Exists(path))
+                return null;
             using var reader = new StreamReader(path);
             var content = reader.ReadToEnd();
             return content;

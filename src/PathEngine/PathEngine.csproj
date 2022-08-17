@@ -4,11 +4,12 @@
     <Nullable>enable</Nullable>
     <!--<ImplicitUsings>enable</ImplicitUsings>-->
     <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
-    <Version>1.1.5</Version>
+    <Version>1.1.6</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/DaZiYuan/path-engine</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Description>一种简单的方式，用于解析路径</Description>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Pipelines\Middles\GetEmbeddedResourceMiddle.cs" />
